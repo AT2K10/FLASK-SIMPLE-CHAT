@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" id="v44">
+    <button id='v43'>
+        ???
+    </button>
+    <div id="msgs">
+
+    </div>
+<script>
+    let socket = io()
+    let input = document.getElementById('v44')
+    let button = document.getElementById('v43')
+    button.addEventListener('click', function(){
+        socket.emit('hello', input.value)
+    })
+    socket.on('send', function(msg){
+        let div = document.getElementById('msgs')
+        div.innerHTML+=`<p> ${msg} </p>`
+    })
+
+</script>    
+</body>
+</html>

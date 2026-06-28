@@ -1,0 +1,73 @@
+<html>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+        <title>
+            MAIN PAGE
+        </title>
+        <link rel="stylesheet" href="{{url_for('static', filename='main.css')}}">
+    </head>
+    <body>
+        <div class="header">
+            <form action="/logout" class="logout-form">
+                <button name="log_out" class="logout-btn">
+                    LOG OUT
+                </button>
+            </form>
+            <div class="notification-bell">
+                <button id="b11" class="bell-btn">
+                    <img id="b22" src="{{url_for('static', filename='bell.png')}}" alt="Notifications">
+                </button>
+            </div>
+        </div>
+        
+        <div class="content">
+            <button name="new_room" id="3" class="new-room-btn">
+                NEW ROOM
+            </button>
+            
+            <div class="rooms-list">
+                {%for x in result%}
+                <a href="{{url_for('room', room_id=x.id)}}" class="room-link">
+                    <div class="room-item">
+                        {{x.name}}
+                    </div>
+                </a>
+                {%endfor%}
+            </div>
+            
+            <form action="/create" id="2" method="post" class="create-room-form">
+                <input type="text" placeholder="Enter name of room" name="name_room" class="room-input">
+                <button name="create_room" class="create-btn">
+                    CREATE 
+                </button>
+            </form>
+            
+            <div id="a33" class="notifications-panel">
+                <div class="notifications-header">
+                    <h3>Notifications</h3>
+                </div>
+                <div class="notifications-list">
+                    {%for invite in invites%}
+                    <div class="notification-item">
+                        <p class="notification-text">
+                            <span class="sender-name">{{invite.login_sender}}</span> invites you to join a room
+                        </p>
+                        <form action="{{url_for('panel', room_id=invite.room_id, invites_id=invite.invites_id)}}" method="post" class="invite-form">
+                            <button type="submit" name="ok" value="ok" class="btn-accept">Accept</button>
+                            <button type="submit" name="cancel" value="cancel" class="btn-decline">Decline</button>
+                        </form>
+                    </div>
+                    {%endfor%}
+                    
+                    {%if not invites%}
+                    <div class="no-notifications">
+                        No new notifications
+                    </div>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+        
+        <script src="{{url_for('static', filename='main.js')}}"></script>
+    </body>
+</html>

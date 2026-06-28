@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="{{url_for('static', filename='room.css')}}">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+        <meta charset="UTF-8">
+        <title>
+            ROOM {{room_id}}
+        </title>
+        <style>
+        .per_leave{
+            margin-top: 5px;
+        }
+    </style>
+    </head>
+    <body>
+        <div id="msgs1">
+            {%for msg in msgs%}
+            <h2 data-id={{msg.id}}>
+                <div class="head_msg">
+                <h3>
+                    {{msg.login_sender}}  
+                </h3>
+                {%if msg.tresh%}
+                    <button class="tresh_button" data-id={{msg.id}}><img class="tresh_img" src="{{url_for('static',filename='opened_bin.png')}}"></button>
+                {%endif%}
+                </div>
+                <div class="body_msg" data-id={{msg.id}}>
+                {{msg.message}}
+                </div>
+                {%if msg.image%}
+                <img src="{{url_for('img',image=msg.image)}}" alt="" data-id={{msg.id}} class="img">
+                {%endif%}
+            </h2>
+            {%endfor%}
+        </div>
+        <form action="/send" method="post" enctype="multipart/form-data">
+            <textarea name="message" id="" placeholder="write your message"></textarea>
+            <input type="file" name="file">
+            <button name="send">
+                SEND
+            </button>
+        </form>
+        <form action="{{url_for('room', room_id = room_id)}}" method="post" id="leave33">
+            <button name="leave" value="1">
+                BACK TO MENU
+            </button>
+            <p></p>
+            <button name="leave" class="per_leave" value="2">
+                PER LEAVE 
+            </button>
+        </form>
+            <button id="7">
+                INVITE
+            </button>
+        <form action="/invite" method="post" id="6">
+            <input type="text" name="login">
+            <button>
+                CONFIRM
+            </button>
+        {%if error%}
+        <div id="10">{{error}}</div>
+        {%endif%}
+        </form>
+        <script src = "{{url_for('static', filename = 'room.js')}}"></script>
+    </body>
+</html>
