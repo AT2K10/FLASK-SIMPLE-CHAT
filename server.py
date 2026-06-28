@@ -233,7 +233,8 @@ def img(image):
 def eror_fzf(error):
     return render_template('404.html')
 
-socket.run(app, port = 5000, debug=True)
+if __name__ == "__main__":
+    socket.run(app, port = 5000, debug=True)
 
 
 
