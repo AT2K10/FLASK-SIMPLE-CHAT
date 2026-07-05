@@ -3,6 +3,9 @@ import pickle
 import uuid
 from database import db
 import models
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 
 def check_log(login):
     user = models.User.query.filter_by(login = login).first()
@@ -12,7 +15,7 @@ def check_log(login):
         return False
     
 def new_user(login, password):
-    new = models.User(login = login, password = password)
+    new = models.User(login = login, password = generate_password_hash(password))
     db.session.add(new)
     db.session.commit()
     
@@ -38,7 +41,7 @@ def lists(nickname):
     return us_room
 
 def check_ui(login, password):
-    user = models.User.query.filter_by(login = login, password = password).first()
+    user = models.User.query.filter_by(login = login, password = generate_password_hash(password)).first()
     if user:
         return True
     else:
