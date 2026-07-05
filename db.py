@@ -41,8 +41,8 @@ def lists(nickname):
     return us_room
 
 def check_ui(login, password):
-    user = models.User.query.filter_by(login = login, password = generate_password_hash(password)).first()
-    if user:
+    user = models.User.query.filter_by(login = login).first()
+    if user and check_password_hash(user.password, password):
         return True
     else:
         return False
